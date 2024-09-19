@@ -33,7 +33,7 @@ pipeline {
                 script {
                     withCredentials([usernamePassword(credentialsId: 'docker', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
                         bat "docker login -u %DOCKER_USER% -p %DOCKER_PASS%"
-                        bat "docker push jenkins-sample:v1"
+                        bat "docker push %DOCKER_USER%/jenkins-sample:v1"
                     }
 
                 }
