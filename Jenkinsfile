@@ -2,14 +2,14 @@ pipeline {
     agent any
 
     tools {
-        maven 'maven'
-    }
+            maven 'maven'
+        }
 
     stages {
         stage('Checkout Code') {
-            steps {
-                git url: 'https://github.com/amir-mugisha/jenkins.git', branch: 'main'
-            }
+                steps {
+                    git url: 'https://github.com/amir-mugisha/jenkins.git', branch: 'main'
+                }
         }
 
         stage('Build Maven Project') {
@@ -32,11 +32,10 @@ pipeline {
             steps {
                 script {
                     withCredentials([usernamePassword(credentialsId: 'docker', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
-                        bat """
-                        echo %DOCKER_PASS% | docker login -u %DOCKER_USER% --password-stdin
-                        docker push jenkins-sample:v1
-                        """
+                        bat "docker login -u %DOCKER_USER% -p %DOCKER_PASS%"
+                        bat "docker push jenkins-sample:v1"
                     }
+
                 }
             }
         }
@@ -55,6 +54,7 @@ pipeline {
     }
 
     post {
+
         always {
             echo 'Cleaning workspace...'
             cleanWs()
