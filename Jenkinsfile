@@ -23,7 +23,7 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 script {
-                    bat "docker build -t jenkins-sample:v1 ."
+                    bat "docker build -t mugiisha/jenkins-sample:v1 ."
                 }
             }
         }
